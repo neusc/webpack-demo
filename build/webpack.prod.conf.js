@@ -46,20 +46,37 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
 
-     new HtmlWebpackPlugin({
-     filename: config.build.index,
-     template: 'src/js/demo/index.html',
-     inject: true,
-     minify: {
-     removeComments: true,
-     collapseWhitespace: true,
-     removeAttributeQuotes: true
-     // more options:
-     // https://github.com/kangax/html-minifier#options-quick-reference
-     },
-     // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-     chunksSortMode: 'dependency'
-     }),
+    //多页面应用生成不同的html文件并通过chunks属性注入不同的js,css等静态文件
+    new HtmlWebpackPlugin({
+      filename: '../dist/demo.html',
+      template: 'src/js/demo/index.html',
+      inject: true,
+      chunks: ['demo/index','vendor','manifest'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency'
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../dist/sell.html',
+      template: 'src/js/sell/index.html',
+      inject: true,
+      chunks:['sell/index','vendor','manifest'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency'
+    }),
 
 
     // split vendor js into its own file

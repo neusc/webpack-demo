@@ -32,6 +32,7 @@ var hotMiddleware = require('webpack-hot-middleware')(compiler, {
 })
 // force page reload when html-webpack-plugin template changes
 compiler.plugin('compilation', function (compilation) {
+  //一个事件的绑定，这些事件在打包时由 webpack 来触发
   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
     hotMiddleware.publish({ action: 'reload' })
     cb()

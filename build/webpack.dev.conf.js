@@ -25,10 +25,18 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
+
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: '../dist/static/demo.html',
       template: 'src/js/demo/index.html',
-      inject: true
+      inject: true,
+      chunks: ['demo/index', 'vendor', 'manifest'],
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../dist/static/sell.html',
+      template: 'src/js/sell/index.html',
+      inject: true,
+      chunks:['sell/index','vendor','manifest'],
     }),
     new FriendlyErrorsPlugin()
   ]

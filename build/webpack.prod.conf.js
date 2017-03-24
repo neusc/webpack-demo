@@ -36,6 +36,10 @@ var webpackConfig = merge(baseWebpackConfig, {
       sourceMap: true
     }),
     // extract css into its own file
+    // 由于编译css文件必须由js文件导入,所以css文件被当做js文件的一部分共有同一个chunkhash值
+    // 所以此处使用contenthash,编译出的js和css文件将拥有独立的hash指纹
+    // 但如果css文件修改之后,还是会导致js文件的chunkhash值更新
+    // 解决方案是使用webpack-md5-hash插件
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
     }),

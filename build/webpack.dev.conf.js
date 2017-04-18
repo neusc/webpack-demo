@@ -27,13 +27,13 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
 
     new HtmlWebpackPlugin({
-      filename: '../dist/static/view/demo.html',
+      filename: '../dist/static/view/demo/index.html',
       template: 'src/js/demo/index.html',
       inject: true,
       chunks: ['demo/index', 'vendor', 'manifest'],
     }),
     new HtmlWebpackPlugin({
-      filename: '../dist/static/view/sell.html',
+      filename: '../dist/static/view/sell/index.html',
       template: 'src/js/sell/index.html',
       inject: true,
       chunks:['sell/index','vendor','manifest'],

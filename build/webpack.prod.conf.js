@@ -52,7 +52,7 @@ var webpackConfig = merge(baseWebpackConfig, {
 
     //多页面应用生成不同的html文件并通过chunks属性注入不同的js,css等静态文件
     new HtmlWebpackPlugin({
-      filename: '../dist/demo.html',
+      filename: '../dist/static/view/demo.html',
       template: 'src/js/demo/index.html',
       inject: true,
       chunks: ['demo/index','vendor','manifest'],
@@ -67,7 +67,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency'
     }),
     new HtmlWebpackPlugin({
-      filename: '../dist/sell.html',
+      filename: '../dist/static/view/sell.html',
       template: 'src/js/sell/index.html',
       inject: true,
       chunks:['sell/index','vendor','manifest'],

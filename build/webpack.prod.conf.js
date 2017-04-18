@@ -51,6 +51,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
 
     //多页面应用生成不同的html文件并通过chunks属性注入不同的js,css等静态文件
+    /*
     new HtmlWebpackPlugin({
       filename: '../dist/static/view/demo/index.html',
       template: 'src/js/demo/index.html',
@@ -81,7 +82,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
-
+    */
 
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
@@ -129,42 +130,41 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
+/**
+ * 动态获取所有项目目录名称
+ */
+
+var getDir = function () {
+  var files = glob.sync('./src/js/*/index.js');
+  var directories = [];
+
+  files.forEach(function(f){
+    var name = /js\/(.*?)\/index\.js/.exec(f)[1];//得到demo这样的项目目录名,.*?表示懒惰模式，匹配最短
+    directories.push(name);
+  });
+  console.log(directories);
+  return directories;
+};
 
 /*多入口html文件注入*/
-// function getHtmlEntry(globPath, pathDir) {
-//   var files = glob.sync(globPath);
-//   var entries = {},
-//     entry, dirname, basename, pathname, extname;
-//
-//   for (var i = 0; i < files.length; i++) {
-//     entry = files[i];
-//     dirname = path.dirname(entry);
-//     extname = path.extname(entry);
-//     basename = path.basename(entry, extname);
-//     pathname = path.join(dirname, basename);
-//     pathname = pathDir ? pathname.replace(pathDir, '') : pathname;
-//     console.log(2, pathname, entry);
-//     entries[pathname] = './' + entry;
-//   }
-//   return entries;
-// }
-//
-// var htmls = getHtmlEntry('./src/js/*/*.html', 'src\\js\\');
-// var entries = {};
-// for (var key in htmls) {
-//   entries[key] = htmls[key].replace('.html', '.js')
-//   webpackConfig.plugins.push(new HtmlWebpackPlugin({
-//     filename: (key == 'index\\index' ? 'index.html' : key + '.html'),
-//     template: htmls[key],
-//     inject: true,
-//     // chunks: [key]
-//     minify: {
-//       removeComments: true,
-//       collapseWhitespace: true,
-//       removeAttributeQuotes: true
-//     },
-//     chunksSortMode: 'dependency'
-//   }))
-// }
+for(var dir of getDir()){
+  var conf = {
+    filename: '../dist/static/view/' + dir +'/index.html',
+    template: 'src/js/' + dir + '/index.html',
+    inject: true,
+    chunks: [dir + '/index', 'vendor', 'manifest'],
+    minify: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true
+      // more options:
+      // https://github.com/kangax/html-minifier#options-quick-reference
+    },
+    // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    chunksSortMode: 'dependency'
+  };
+
+  webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
+}
 
 module.exports = webpackConfig

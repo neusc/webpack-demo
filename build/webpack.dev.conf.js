@@ -19,7 +19,9 @@ var getDir = function () {
     var name = /js\/(.*?)\/index\.js/.exec(f)[1];//得到demo这样的项目目录名,.*?表示懒惰模式，匹配最短
     directories.push(name);
   });
+  console.log('当前所有项目目录数组为:');
   console.log(directories);
+  console.log('\n');
   return directories;
 };
 

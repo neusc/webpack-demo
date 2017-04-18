@@ -20,7 +20,9 @@ var getEntry = function () {
     var name = /js\/(.*?\/index)\.js/.exec(f)[1];//得到demo/index这样的文件名,.*?表示懒惰模式，匹配最短
     newEntries[name] = f;
   });
+  console.log('入口文件为:');
   console.log(newEntries);
+  console.log('\n');
   return newEntries;
 };
 

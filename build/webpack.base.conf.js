@@ -4,6 +4,12 @@ var config = require('../config')
 var glob = require('glob')
 var vueLoaderConfig = require('./vue-loader.conf')
 
+/**
+ * 获得绝对路径
+ * @method resolve
+ * @param  {String} dir 相对于本文件的路径
+ * @return {String}     绝对路径
+ */
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -11,7 +17,6 @@ function resolve(dir) {
 /**
  * 动态查找所有入口文件
  */
-
 var getEntry = function () {
   var files = glob.sync('./src/js/*/index.js');
   var newEntries = {};
@@ -34,8 +39,11 @@ module.exports = {
   //   'sell/index': './src/js/sell/index.js'
   // },
   output: {
+    // 编译输出的静态资源根路径
     path: config.build.assetsRoot,
+    // 编译输出的文件名
     filename: '[name].js',
+    // 正式发布环境下编译输出的上线路径的根路径
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
@@ -47,6 +55,7 @@ module.exports = {
       resolve('node_modules')
     ],
     alias: {
+      // 例如 import Vue from 'vue'，会自动到 'vue/dist/vue.common.js'中寻找
       'vue$': 'vue/dist/vue.common.js',
       'src': resolve('src'),
       'image': resolve('src/image'),
@@ -57,6 +66,7 @@ module.exports = {
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
+        // 表示预先处理
         enforce: "pre",
         include: [resolve('src'), resolve('test')],
         options: {
